@@ -6,6 +6,23 @@
     <description>Updates for Sermonship, the free sermon-to-everything app for the Mac.</description>
     <language>en</language>
     <item>
+      <title>Sermonship 0.1.1</title>
+      <pubDate>Tue, 06 Oct 2026 23:52:25 +0000</pubDate>
+      <sparkle:version>202610061619</sparkle:version>
+      <sparkle:shortVersionString>0.1.1</sparkle:shortVersionString>
+      <sparkle:minimumSystemVersion>14.0</sparkle:minimumSystemVersion>
+      <description><![CDATA[
+<h2>Sermonship 0.1.1</h2>
+<ul>
+  <li>Quote cards: a ✦ button in the card editor draws four more designed backgrounds in your colours; "New Designs" above the cards redraws the whole set (with Undo).</li>
+  <li>My Backgrounds: photos you choose are kept in your Sermonship folder and offered again next time; right-click a designed background to keep it too.</li>
+  <li>The log (Help › Show Logs) now records what Sermonship found on launch, to make problems easier to report.</li>
+</ul>
+]]></description>
+      <enclosure url="https://github.com/Nice-Take/sermonship-releases/releases/download/v0.1.1/Sermonship-0.1.1.dmg" length="743342013" type="application/octet-stream"
+                 sparkle:edSignature="0GLVGo0LkxWvm+WtC5SPxioUGJVXlMNWXqgshqpM9OVqrQt1k0A2Evm99xKdcH2zkR/OWpWfiB8T7IdIN6zZCQ==" />
+    </item>
+    <item>
       <title>Sermonship 0.1.0</title>
       <pubDate>Tue, 06 Oct 2026 23:17:52 +0000</pubDate>
       <sparkle:version>202610061448</sparkle:version>
