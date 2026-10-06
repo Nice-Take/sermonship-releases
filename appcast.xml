@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0" xmlns:sparkle="http://www.andymatuschak.org/xml-namespaces/sparkle">
+  <channel>
+    <title>Sermonship</title>
+    <link>https://github.com/Nice-Take/sermonship-releases</link>
+    <description>Updates for Sermonship, the free sermon-to-everything app for the Mac.</description>
+    <language>en</language>
+    <item>
+      <title>Sermonship 0.1.0</title>
+      <pubDate>Tue, 06 Oct 2026 23:17:52 +0000</pubDate>
+      <sparkle:version>202610061448</sparkle:version>
+      <sparkle:shortVersionString>0.1.0</sparkle:shortVersionString>
+      <sparkle:minimumSystemVersion>14.0</sparkle:minimumSystemVersion>
+      <description><![CDATA[
+<h2>Sermonship 0.1.0</h2>
+<p>The first release, for a small group of testers.</p>
+<ul>
+  <li>Everything from one recording: transcript, two summaries, ten discussion questions, five daily devotionals, quotes and quote cards, and vertical highlight clips with and without subtitles.</li>
+  <li>Writes on your Mac with a model it downloads once; or with your own Gemini key.</li>
+  <li>Choose the whole suite or just some of it, and add more later, including more clips.</li>
+  <li>Ask the Sermon: questions, drafts and a clip about any subject, from the transcript.</li>
+  <li>Customise: card shape, backgrounds, theme colour, logo (with strength), speaker name, your own notes to the writer.</li>
+</ul>
+]]></description>
+      <enclosure url="https://github.com/Nice-Take/sermonship-releases/releases/download/v0.1.0/Sermonship-0.1.0.dmg" length="741340558" type="application/octet-stream"
+                 sparkle:edSignature="qOILQ4TWcKty22f0/o5+sLBQkBxUVsLrOhryU00cX6bkX4ppFoixNG5w5yyXSLkwDJohqP61ZAGwx7B35r1hAw==" />
+    </item>
+  </channel>
+</rss>
