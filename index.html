@@ -1,0 +1,203 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Sermonship — one sermon in, a week of discipleship out</title>
+<meta name="description" content="Sermonship is a free Mac app that turns a sermon recording into a transcript, summaries, discussion questions, devotionals, quote cards and highlight clips — entirely on your own Mac.">
+<link rel="icon" href="icon.png" type="image/png">
+<link rel="apple-touch-icon" href="icon.png">
+<meta property="og:title" content="Sermonship">
+<meta property="og:description" content="A free Mac app that turns one sermon recording into a week of discipleship and social material, without uploading anything.">
+<meta property="og:image" content="https://sermonship.com/icon.png">
+<meta property="og:url" content="https://sermonship.com/">
+<meta name="theme-color" content="#1c265c">
+<style>
+  :root {
+    --bg: #f7f6f2;
+    --fg: #1d1f2b;
+    --muted: #5b5f73;
+    --rule: #e2e1db;
+    --card: #ffffff;
+    --navy: #1c265c;
+    --indigo: #4a3aa0;
+    --accent: #3a2f8a;
+    --accent-fg: #ffffff;
+    --soft: #ecebf7;
+    color-scheme: light;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #13141c;
+      --fg: #ecebf2;
+      --muted: #a4a7bd;
+      --rule: #272a3a;
+      --card: #1b1d29;
+      --accent: #8f82e6;
+      --accent-fg: #13141c;
+      --soft: #22233a;
+      color-scheme: dark;
+    }
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; }
+  body {
+    background: var(--bg);
+    color: var(--fg);
+    font: 17px/1.55 -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    padding-block: env(safe-area-inset-top, 0px) env(safe-area-inset-bottom, 0px);
+  }
+  a { color: var(--accent); text-underline-offset: 3px; }
+  .wrap { max-width: 960px; margin: 0 auto; padding-inline: 20px; }
+  h1, h2, h3 { line-height: 1.15; text-wrap: balance; margin: 0; letter-spacing: -0.01em; }
+  h2 { font-size: 1.6rem; margin-bottom: 0.9rem; }
+  p { margin: 0 0 1rem; }
+  .muted { color: var(--muted); }
+  .small { font-size: 0.92rem; }
+  .label { font-size: 0.78rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); font-weight: 600; }
+
+  header.top { display: flex; align-items: center; gap: 14px; padding-block: 22px; }
+  header.top img { width: 44px; height: 44px; }
+  header.top .name { font-weight: 700; font-size: 1.15rem; }
+  header.top .by { color: var(--muted); font-size: 0.92rem; margin-left: auto; }
+
+  .hero {
+    display: grid; grid-template-columns: 1.25fr 1fr; gap: 40px; align-items: center;
+    padding-block: 48px 56px; border-bottom: 1px solid var(--rule);
+  }
+  .hero h1 { font-size: clamp(2.1rem, 5vw, 3.2rem); font-weight: 800; margin-bottom: 1rem; }
+  .hero .lede { font-size: 1.2rem; color: var(--muted); max-width: 34em; }
+  .download {
+    display: flex; flex-direction: column; align-items: flex-start; gap: 10px;
+    background: var(--card); border: 1px solid var(--rule); border-radius: 18px; padding: 26px;
+    box-shadow: 0 12px 40px rgba(28, 38, 92, 0.08);
+  }
+  .button {
+    display: inline-flex; align-items: center; gap: 10px;
+    background: var(--accent); color: var(--accent-fg); text-decoration: none; font-weight: 700;
+    padding: 14px 22px; border-radius: 12px; font-size: 1.05rem;
+  }
+  .button:hover { filter: brightness(1.08); }
+  .button svg { width: 20px; height: 20px; fill: currentColor; }
+  .download .meta { font-variant-numeric: tabular-nums; }
+  .download .meta a { color: var(--muted); }
+
+  section { padding-block: 44px; border-bottom: 1px solid var(--rule); }
+  section:last-of-type { border-bottom: 0; }
+
+  .grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 18px; }
+  .tile { background: var(--card); border: 1px solid var(--rule); border-radius: 14px; padding: 20px 22px; min-width: 0; }
+  .tile h3 { font-size: 1.05rem; margin-bottom: 0.4rem; }
+  .tile p { margin: 0; color: var(--muted); font-size: 0.97rem; }
+
+  .steps { counter-reset: step; list-style: none; padding: 0; margin: 0; display: grid; gap: 14px; }
+  .steps li { display: grid; grid-template-columns: 36px 1fr; gap: 14px; align-items: start; }
+  .steps li::before {
+    counter-increment: step; content: counter(step);
+    width: 36px; height: 36px; border-radius: 50%; display: grid; place-items: center;
+    background: var(--soft); color: var(--accent); font-weight: 700; font-variant-numeric: tabular-nums;
+  }
+  .two { display: grid; grid-template-columns: 1fr 1fr; gap: 36px; }
+  .two > div { min-width: 0; }
+  ul.plain { padding-left: 1.2em; margin: 0; }
+  ul.plain li { margin-bottom: 0.45em; }
+  .notes ul { padding-left: 1.2em; margin: 0; }
+  .notes li { margin-bottom: 0.5em; }
+  .notes h2 + h2, .notes h3 { display: none; }
+  kbd { font: inherit; background: var(--soft); border-radius: 6px; padding: 1px 7px; }
+
+  footer { padding-block: 30px 48px; color: var(--muted); font-size: 0.92rem; display: flex; flex-wrap: wrap; gap: 8px 24px; align-items: center; border-top: 1px solid var(--rule); }
+  footer a { color: var(--muted); }
+  footer .copy { margin-left: auto; }
+
+  @media (max-width: 720px) {
+    .hero { grid-template-columns: 1fr; gap: 28px; padding-block: 28px 40px; }
+    .grid, .two { grid-template-columns: 1fr; }
+    header.top .by { display: none; }
+    footer .copy { margin-left: 0; width: 100%; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="top">
+  <img src="icon.png" alt="" width="44" height="44">
+  <span class="name">Sermonship</span>
+  <span class="by">Free, from NiceTake</span>
+</header>
+
+<div class="hero">
+  <div>
+    <h1>One sermon in.<br>A week of discipleship out.</h1>
+    <p class="lede">Drop in Sunday's recording. Sermonship transcribes it, writes the study guide, devotionals and quotes, designs the quote cards and cuts the vertical highlight clips — on your own Mac, with nothing uploaded anywhere.</p>
+  </div>
+  <div class="download">
+    <span class="label">Download for Mac</span>
+    <a class="button" href="https://github.com/Nice-Take/sermonship-releases/releases/download/v0.1.1/Sermonship-0.1.1.dmg">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3a1 1 0 0 1 1 1v9.59l3.3-3.3a1 1 0 1 1 1.4 1.42l-5 5a1 1 0 0 1-1.4 0l-5-5a1 1 0 1 1 1.4-1.42l3.3 3.3V4a1 1 0 0 1 1-1zM5 19a1 1 0 0 1 1-1h12a1 1 0 1 1 0 2H6a1 1 0 0 1-1-1z"/></svg>
+      Sermonship 0.1.1
+    </a>
+    <span class="meta small muted">Disk image, 743 MB · released 6 October 2026 · <a href="https://github.com/Nice-Take/sermonship-releases/releases">all versions</a></span>
+    <span class="small muted">Apple silicon Mac · macOS 14 or later · free, no account</span>
+  </div>
+</div>
+
+<section id="what">
+  <h2>From one video you get</h2>
+  <div class="grid">
+    <div class="tile"><h3>Documents</h3><p>The transcript, ten discussion questions, short and extended summaries, four key quotes and five daily devotionals — each as PDF and Word, ready for a small group or the church newsletter.</p></div>
+    <div class="tile"><h3>Quote cards</h3><p>Sixteen quote cards in your colours and shape of choice, on generated backgrounds or your own photos, with your logo. Redraw the designs with a click until you like them.</p></div>
+    <div class="tile"><h3>Highlight clips</h3><p>Vertical clips (1080×1920) that follow the speaker, end on a complete thought, and come with and without burned-in subtitles. Ask for a clip about a particular point and it finds it.</p></div>
+    <div class="tile"><h3>Ask the Sermon</h3><p>A conversation with the sermon itself: where was that illustration, what did the second point mean, give me three questions for the youth group. Plus the whole sermon as an MP3.</p></div>
+  </div>
+</section>
+
+<section id="private">
+  <div class="two">
+    <div>
+      <h2>Private by design</h2>
+      <p>The video, the audio, the transcript and everything written from them stay on the Mac. The writing is done by an open model (Gemma) running locally; there is no account, no upload and nothing sent to NiceTake. Sermonship works on a plane.</p>
+      <p class="muted small">If you prefer, you can use your own Google Gemini key instead; then only the transcript text is sent to Google, never the video. The app explains this where you turn it on.</p>
+    </div>
+    <div>
+      <h2>What you need</h2>
+      <ul class="plain">
+        <li>A Mac with Apple silicon (M1 or later) running macOS 14 Sonoma or newer.</li>
+        <li>16 GB of memory for the Standard writing model, 24 GB for the Advanced one. A Mac with less can write with a Gemini key.</li>
+        <li>About 10 GB of free disk space for the app and the Standard writing model, which it downloads once on first use (6.4 GB; the Advanced model is 15.6 GB). After that it starts straight away, offline.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section id="install">
+  <h2>Installing</h2>
+  <ol class="steps">
+    <li><div><strong>Download the disk image</strong> above and open it.</div></li>
+    <li><div><strong>Drag Sermonship into Applications</strong>, then open it from there. It is signed and notarised by Apple, so it opens like any other Mac app.</div></li>
+    <li><div><strong>Choose a writing model on first launch</strong> and let it download while you make coffee. Then drop in a sermon. Your results land in <kbd>Documents › Sermonship</kbd>, one folder per sermon.</div></li>
+  </ol>
+  <p class="muted small" style="margin-top:1.2rem">Sermonship checks for new versions itself and offers to install them (Sermonship menu › Check for Updates…). Updates never touch your sermons or settings.</p>
+</section>
+
+<section id="notes">
+  <h2>What's new in 0.1.1</h2>
+  <div class="notes"><ul>
+  <li>Quote cards: a ✦ button in the card editor draws four more designed backgrounds in your colours; "New Designs" above the cards redraws the whole set (with Undo).</li>
+  <li>My Backgrounds: photos you choose are kept in your Sermonship folder and offered again next time; right-click a designed background to keep it too.</li>
+  <li>The log (Help › Show Logs) now records what Sermonship found on launch, to make problems easier to report.</li>
+</ul></div>
+</section>
+
+<footer>
+  <a href="https://github.com/Nice-Take/sermonship-releases/issues">Questions &amp; problems</a>
+  <a href="https://github.com/Nice-Take/sermonship-releases/blob/main/LICENSE.md">Licence</a>
+  <a href="https://github.com/Nice-Take/sermonship-releases/releases">Releases</a>
+  <span class="copy">© 2026 NiceTake</span>
+</footer>
+
+</div>
+</body>
+</html>

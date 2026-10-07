@@ -4,7 +4,7 @@ Sermonship is a free Mac app that turns a recording of a sermon into a transcrip
 discussion questions, daily devotionals, quote cards and vertical highlight clips — on your own
 Mac, with nothing uploaded anywhere.
 
-**Download:** the latest version is on the [Releases page](https://github.com/Nice-Take/sermonship-releases/releases/latest)
+**Download:** https://sermonship.com — or the latest version from the [Releases page](https://github.com/Nice-Take/sermonship-releases/releases/latest)
 (`Sermonship-x.y.z.dmg`). Open the image, drag Sermonship to Applications, open it.
 
 ## What you need
@@ -32,4 +32,5 @@ Sermonship is free to use under the [Sermonship Licence](https://github.com/Nice
 the licence and the acknowledgements for the software it is built on are also in the app under Help.
 
 ---
-This repository holds only the installers, the update feed (`appcast.xml`) and release notes.
+This repository holds only the installers, the update feed (`appcast.xml`), release notes and the
+download page (`index.html`, served at sermonship.com by GitHub Pages).
