@@ -9,9 +9,10 @@
 <link rel="apple-touch-icon" href="icon.png">
 <meta property="og:title" content="Sermonship">
 <meta property="og:description" content="A free Mac app that turns one sermon recording into a week of discipleship and social material, without uploading anything.">
-<meta property="og:image" content="https://sermonship.com/icon.png">
+<meta property="og:image" content="https://sermonship.com/samples/card1.jpg">
 <meta property="og:url" content="https://sermonship.com/">
 <meta name="theme-color" content="#1c265c">
+<script>document.documentElement.className += " js";</script>
 <style>
   :root {
     --bg: #f7f6f2;
@@ -24,6 +25,7 @@
     --accent: #3a2f8a;
     --accent-fg: #ffffff;
     --soft: #ecebf7;
+    --glow: rgba(74, 58, 160, 0.18);
     color-scheme: light;
   }
   @media (prefers-color-scheme: dark) {
@@ -36,10 +38,12 @@
       --accent: #8f82e6;
       --accent-fg: #13141c;
       --soft: #22233a;
+      --glow: rgba(143, 130, 230, 0.16);
       color-scheme: dark;
     }
   }
   * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
   html, body { margin: 0; }
   body {
     background: var(--bg);
@@ -47,49 +51,158 @@
     font: 17px/1.55 -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Helvetica, Arial, sans-serif;
     -webkit-font-smoothing: antialiased;
     padding-block: env(safe-area-inset-top, 0px) env(safe-area-inset-bottom, 0px);
+    overflow-x: hidden;
   }
   a { color: var(--accent); text-underline-offset: 3px; }
-  .wrap { max-width: 960px; margin: 0 auto; padding-inline: 20px; }
+  img { display: block; max-width: 100%; height: auto; }
+  .wrap { max-width: 1040px; margin: 0 auto; padding-inline: 20px; }
   h1, h2, h3 { line-height: 1.15; text-wrap: balance; margin: 0; letter-spacing: -0.01em; }
-  h2 { font-size: 1.6rem; margin-bottom: 0.9rem; }
+  h2 { font-size: 1.7rem; margin-bottom: 0.9rem; }
   p { margin: 0 0 1rem; }
   .muted { color: var(--muted); }
   .small { font-size: 0.92rem; }
   .label { font-size: 0.78rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); font-weight: 600; }
 
+  /* soft background wash behind the hero */
+  .wash {
+    position: absolute; inset: 0 0 auto 0; height: 720px; z-index: -1; pointer-events: none;
+    background:
+      radial-gradient(60% 50% at 80% 10%, var(--glow), transparent 70%),
+      radial-gradient(40% 40% at 10% 30%, rgba(28, 38, 92, 0.08), transparent 70%);
+  }
+
   header.top { display: flex; align-items: center; gap: 14px; padding-block: 22px; }
   header.top img { width: 44px; height: 44px; }
   header.top .name { font-weight: 700; font-size: 1.15rem; }
-  header.top .by { color: var(--muted); font-size: 0.92rem; margin-left: auto; }
+  header.top nav { margin-left: auto; display: flex; gap: 22px; font-size: 0.95rem; }
+  header.top nav a { color: var(--muted); text-decoration: none; }
+  header.top nav a:hover { color: var(--fg); }
 
   .hero {
-    display: grid; grid-template-columns: 1.25fr 1fr; gap: 40px; align-items: center;
-    padding-block: 48px 56px; border-bottom: 1px solid var(--rule);
+    display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: 40px; align-items: center;
+    padding-block: 40px 64px; border-bottom: 1px solid var(--rule);
   }
-  .hero h1 { font-size: clamp(2.1rem, 5vw, 3.2rem); font-weight: 800; margin-bottom: 1rem; }
-  .hero .lede { font-size: 1.2rem; color: var(--muted); max-width: 34em; }
-  .download {
-    display: flex; flex-direction: column; align-items: flex-start; gap: 10px;
-    background: var(--card); border: 1px solid var(--rule); border-radius: 18px; padding: 26px;
-    box-shadow: 0 12px 40px rgba(28, 38, 92, 0.08);
-  }
+  .hero h1 { font-size: clamp(2.2rem, 5vw, 3.4rem); font-weight: 800; margin-bottom: 1rem; }
+  .hero .lede { font-size: 1.2rem; color: var(--muted); max-width: 32em; margin-bottom: 1.6rem; }
+  .download { display: flex; flex-direction: column; align-items: flex-start; gap: 10px; }
   .button {
     display: inline-flex; align-items: center; gap: 10px;
     background: var(--accent); color: var(--accent-fg); text-decoration: none; font-weight: 700;
-    padding: 14px 22px; border-radius: 12px; font-size: 1.05rem;
+    padding: 15px 24px; border-radius: 13px; font-size: 1.05rem;
+    box-shadow: 0 10px 30px var(--glow);
+    transition: transform 0.2s ease, box-shadow 0.2s ease, filter 0.2s ease;
   }
-  .button:hover { filter: brightness(1.08); }
+  .button:hover { filter: brightness(1.08); transform: translateY(-1px); box-shadow: 0 14px 36px var(--glow); }
   .button svg { width: 20px; height: 20px; fill: currentColor; }
   .download .meta { font-variant-numeric: tabular-nums; }
   .download .meta a { color: var(--muted); }
 
-  section { padding-block: 44px; border-bottom: 1px solid var(--rule); }
-  section:last-of-type { border-bottom: 0; }
+  /* the fan of quote cards in the hero */
+  .fan { position: relative; height: 440px; perspective: 1200px; }
+  .fan img {
+    position: absolute; width: 58%; border-radius: 14px;
+    box-shadow: 0 24px 60px rgba(20, 24, 60, 0.28), 0 2px 6px rgba(0,0,0,0.12);
+    opacity: 0; transform: translateY(40px) rotate(0deg) scale(0.96);
+    animation: deal 0.9s cubic-bezier(.2,.7,.2,1) forwards;
+  }
+  .fan img:nth-child(1) { left: 27%; top: 0;   --r: 2deg;  animation-delay: 0.15s; width: 46%; }
+  .fan img:nth-child(2) { left: 0;   top: 30%; --r: -8deg; animation-delay: 0.35s; }
+  .fan img:nth-child(3) { left: 46%; top: 38%; --r: 7deg;  animation-delay: 0.55s; }
+  .fan img:hover { z-index: 3; }
+  @keyframes deal { to { opacity: 1; transform: translateY(0) rotate(var(--r)) scale(1); } }
+  .fan .float1 { animation: deal 0.9s cubic-bezier(.2,.7,.2,1) 0.15s forwards, bob 7s ease-in-out 1.2s infinite; }
+  .fan .float2 { animation: deal 0.9s cubic-bezier(.2,.7,.2,1) 0.35s forwards, bob 8s ease-in-out 1.6s infinite; }
+  .fan .float3 { animation: deal 0.9s cubic-bezier(.2,.7,.2,1) 0.55s forwards, bob 9s ease-in-out 2.0s infinite; }
+  @keyframes bob {
+    0%, 100% { translate: 0 0; }
+    50% { translate: 0 -8px; }
+  }
 
-  .grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 18px; }
+  section { padding-block: 52px; border-bottom: 1px solid var(--rule); }
+  section:last-of-type { border-bottom: 0; }
+  .lead { color: var(--muted); max-width: 40em; margin-bottom: 1.8rem; }
+
+  /* scroll-in reveal */
+  .js .reveal { opacity: 0; transform: translateY(18px); transition: opacity 0.7s ease, transform 0.7s ease; }
+  .js .reveal.in { opacity: 1; transform: none; }
+  .reveal:nth-child(2) { transition-delay: 0.1s; }
+  .reveal:nth-child(3) { transition-delay: 0.2s; }
+  .reveal:nth-child(4) { transition-delay: 0.3s; }
+
+  .grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; }
   .tile { background: var(--card); border: 1px solid var(--rule); border-radius: 14px; padding: 20px 22px; min-width: 0; }
   .tile h3 { font-size: 1.05rem; margin-bottom: 0.4rem; }
   .tile p { margin: 0; color: var(--muted); font-size: 0.97rem; }
+
+  /* samples */
+  .sample { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr); gap: 36px; align-items: center; padding-block: 34px; }
+  .sample + .sample { border-top: 1px dashed var(--rule); }
+  .sample:nth-child(even) { grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); }
+  .sample:nth-child(even) .copy { order: 2; }
+  .sample h3 { font-size: 1.35rem; margin-bottom: 0.5rem; }
+  .sample .copy p { color: var(--muted); }
+  .pills { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 0.6rem; }
+  .pill { font-size: 0.8rem; font-weight: 600; background: var(--soft); color: var(--accent); border-radius: 999px; padding: 4px 11px; }
+
+  .cards { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; align-items: start; }
+  .cards img { width: 100%; border-radius: 12px; box-shadow: 0 14px 34px rgba(20, 24, 60, 0.22); transition: transform 0.35s ease, box-shadow 0.35s ease; }
+  .cards img:hover { transform: translateY(-6px) rotate(-1deg); box-shadow: 0 22px 44px rgba(20, 24, 60, 0.28); }
+  .cards .tall { grid-row: span 2; }
+
+  .pages { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 20px; align-items: start; }
+  .page {
+    aspect-ratio: 1 / 1.1; overflow: hidden; border-radius: 10px; background: #fff;
+    border: 1px solid var(--rule); box-shadow: 0 16px 40px rgba(20, 24, 60, 0.18);
+    transition: transform 0.4s ease;
+  }
+  .page img { width: 100%; }
+  .page:first-child { transform: rotate(-1.5deg); }
+  .page:last-child { transform: rotate(1.5deg) translateY(16px); }
+  .page:hover { transform: rotate(0) translateY(-4px); }
+
+  /* the phone-shaped clip frame */
+  .phone {
+    position: relative; width: 270px; aspect-ratio: 9 / 16; margin: 0 auto;
+    border-radius: 30px; overflow: hidden; background: #0b1020 url(samples/stage.jpg) center / cover;
+    box-shadow: 0 0 0 10px #16182a, 0 0 0 12px #2b2e45, 0 30px 70px rgba(0,0,0,0.4);
+  }
+  .phone .light {
+    position: absolute; inset: 0;
+    background: radial-gradient(42% 32% at 50% 40%, rgba(255, 232, 190, 0.55), rgba(255, 232, 190, 0.08) 60%, transparent 75%);
+    mix-blend-mode: screen;
+  }
+  .phone svg.person { position: absolute; left: 0; right: 0; bottom: 0; width: 100%; height: 100%; }
+  .phone .sub {
+    position: absolute; left: 6%; right: 6%; bottom: 25%; text-align: center;
+    font: 800 25px/1.15 "Noto Sans", -apple-system, "Helvetica Neue", Arial, sans-serif;
+    color: #fff; letter-spacing: 0.005em;
+    text-shadow: 0 0 2px #000, 2px 2px 0 #000, -2px 2px 0 #000, 2px -2px 0 #000, -2px -2px 0 #000, 0 3px 6px rgba(0,0,0,0.7);
+    text-transform: none;
+  }
+  .phone .sub span { display: inline-block; animation: pop 0.25s ease; }
+  @keyframes pop { from { transform: scale(0.85); opacity: 0.4; } to { transform: none; opacity: 1; } }
+  .phone .bar { position: absolute; left: 6%; right: 6%; bottom: 5%; height: 4px; background: rgba(255,255,255,0.3); border-radius: 2px; overflow: hidden; }
+  .phone .bar i { display: block; height: 100%; width: 0; background: #fff; animation: play 9s linear infinite; }
+  @keyframes play { to { width: 100%; } }
+  .phone .badge { position: absolute; top: 14px; left: 14px; font-size: 0.72rem; font-weight: 700; color: #fff; background: rgba(0,0,0,0.45); padding: 4px 9px; border-radius: 999px; backdrop-filter: blur(6px); }
+
+  /* progress, as the app shows it */
+  .progress {
+    background: var(--card); border: 1px solid var(--rule); border-radius: 16px; padding: 22px 24px;
+    box-shadow: 0 16px 40px rgba(20, 24, 60, 0.12);
+  }
+  .progress .title { font-weight: 700; font-size: 1.05rem; margin-bottom: 2px; }
+  .progress .detail { color: var(--muted); font-size: 0.92rem; min-height: 1.4em; margin-bottom: 12px; }
+  .progress .track { height: 8px; border-radius: 4px; background: var(--soft); overflow: hidden; margin-bottom: 18px; }
+  .progress .track i { display: block; height: 100%; width: 0; background: linear-gradient(90deg, var(--indigo), var(--accent)); transition: width 1.2s ease; border-radius: 4px; }
+  .progress ol { list-style: none; margin: 0; padding: 0; display: grid; gap: 7px; font-size: 0.95rem; }
+  .progress li { display: flex; align-items: center; gap: 12px; color: var(--muted); transition: color 0.3s ease; }
+  .progress li::before { content: ""; width: 14px; height: 14px; border-radius: 50%; border: 2px solid var(--rule); flex: none; transition: all 0.3s ease; }
+  .progress li.done { color: var(--fg); }
+  .progress li.done::before { background: var(--accent); border-color: var(--accent); box-shadow: inset 0 0 0 3px var(--card); }
+  .progress li.now { color: var(--fg); font-weight: 600; }
+  .progress li.now::before { border-color: var(--accent); animation: pulse 1.2s ease-in-out infinite; }
+  @keyframes pulse { 0%, 100% { box-shadow: 0 0 0 0 var(--glow); } 50% { box-shadow: 0 0 0 6px var(--glow); } }
 
   .steps { counter-reset: step; list-style: none; padding: 0; margin: 0; display: grid; gap: 14px; }
   .steps li { display: grid; grid-template-columns: 36px 1fr; gap: 14px; align-items: start; }
@@ -98,59 +211,163 @@
     width: 36px; height: 36px; border-radius: 50%; display: grid; place-items: center;
     background: var(--soft); color: var(--accent); font-weight: 700; font-variant-numeric: tabular-nums;
   }
-  .two { display: grid; grid-template-columns: 1fr 1fr; gap: 36px; }
+  .two { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 36px; }
   .two > div { min-width: 0; }
   ul.plain { padding-left: 1.2em; margin: 0; }
   ul.plain li { margin-bottom: 0.45em; }
   .notes ul { padding-left: 1.2em; margin: 0; }
   .notes li { margin-bottom: 0.5em; }
-  .notes h2 + h2, .notes h3 { display: none; }
   kbd { font: inherit; background: var(--soft); border-radius: 6px; padding: 1px 7px; }
 
   footer { padding-block: 30px 48px; color: var(--muted); font-size: 0.92rem; display: flex; flex-wrap: wrap; gap: 8px 24px; align-items: center; border-top: 1px solid var(--rule); }
   footer a { color: var(--muted); }
   footer .copy { margin-left: auto; }
 
-  @media (max-width: 720px) {
-    .hero { grid-template-columns: 1fr; gap: 28px; padding-block: 28px 40px; }
-    .grid, .two { grid-template-columns: 1fr; }
-    header.top .by { display: none; }
+  @media (max-width: 820px) {
+    .hero { grid-template-columns: 1fr; gap: 28px; padding-block: 24px 40px; }
+    .fan { height: 320px; }
+    .grid, .two, .sample, .sample:nth-child(even) { grid-template-columns: minmax(0, 1fr); }
+    .sample:nth-child(even) .copy { order: 0; }
+    header.top nav { display: none; }
     footer .copy { margin-left: 0; width: 100%; }
+    .cards { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .fan img, .fan .float1, .fan .float2, .fan .float3 { animation: none; opacity: 1; transform: rotate(var(--r)); }
+    .reveal { opacity: 1; transform: none; transition: none; }
+    .phone .bar i, .phone .sub span, .progress li.now::before { animation: none; }
+    .cards img, .page, .button { transition: none; }
   }
 </style>
 </head>
 <body>
+<div class="wash" aria-hidden="true"></div>
 <div class="wrap">
 
 <header class="top">
   <img src="icon.png" alt="" width="44" height="44">
   <span class="name">Sermonship</span>
-  <span class="by">Free, from NiceTake</span>
+  <nav aria-label="Sections">
+    <a href="#samples">Samples</a>
+    <a href="#private">Privacy</a>
+    <a href="#install">Install</a>
+    <a href="#notes">What's new</a>
+  </nav>
 </header>
 
 <div class="hero">
   <div>
     <h1>One sermon in.<br>A week of discipleship out.</h1>
     <p class="lede">Drop in Sunday's recording. Sermonship transcribes it, writes the study guide, devotionals and quotes, designs the quote cards and cuts the vertical highlight clips — on your own Mac, with nothing uploaded anywhere.</p>
+    <div class="download">
+      <a class="button" href="https://github.com/Nice-Take/sermonship-releases/releases/download/v0.1.1/Sermonship-0.1.1.dmg">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3a1 1 0 0 1 1 1v9.59l3.3-3.3a1 1 0 1 1 1.4 1.42l-5 5a1 1 0 0 1-1.4 0l-5-5a1 1 0 1 1 1.4-1.42l3.3 3.3V4a1 1 0 0 1 1-1zM5 19a1 1 0 0 1 1-1h12a1 1 0 1 1 0 2H6a1 1 0 0 1-1-1z"/></svg>
+        Download Sermonship 0.1.1
+      </a>
+      <span class="meta small muted">Free for Mac · disk image, 743 MB · <a href="https://github.com/Nice-Take/sermonship-releases/releases">all versions</a></span>
+      <span class="small muted">Apple silicon · macOS 14 or later · no account</span>
+    </div>
   </div>
-  <div class="download">
-    <span class="label">Download for Mac</span>
-    <a class="button" href="https://github.com/Nice-Take/sermonship-releases/releases/download/v0.1.1/Sermonship-0.1.1.dmg">
-      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3a1 1 0 0 1 1 1v9.59l3.3-3.3a1 1 0 1 1 1.4 1.42l-5 5a1 1 0 0 1-1.4 0l-5-5a1 1 0 1 1 1.4-1.42l3.3 3.3V4a1 1 0 0 1 1-1zM5 19a1 1 0 0 1 1-1h12a1 1 0 1 1 0 2H6a1 1 0 0 1-1-1z"/></svg>
-      Sermonship 0.1.1
-    </a>
-    <span class="meta small muted">Disk image, 743 MB · released 6 October 2026 · <a href="https://github.com/Nice-Take/sermonship-releases/releases">all versions</a></span>
-    <span class="small muted">Apple silicon Mac · macOS 14 or later · free, no account</span>
+  <div class="fan" aria-label="Three quote cards made by Sermonship">
+    <img class="float1" src="samples/card2.jpg" alt="Portrait quote card with Jeremiah 17:7" width="720" height="900" loading="eager">
+    <img class="float2" src="samples/card1.jpg" alt="Square quote card: “Roots grow in the dark, long before anyone sees fruit.”" width="720" height="720" loading="eager">
+    <img class="float3" src="samples/card4.jpg" alt="Square quote card with Jeremiah 17:8" width="720" height="720" loading="eager">
   </div>
 </div>
 
 <section id="what">
   <h2>From one video you get</h2>
   <div class="grid">
-    <div class="tile"><h3>Documents</h3><p>The transcript, ten discussion questions, short and extended summaries, four key quotes and five daily devotionals — each as PDF and Word, ready for a small group or the church newsletter.</p></div>
-    <div class="tile"><h3>Quote cards</h3><p>Sixteen quote cards in your colours and shape of choice, on generated backgrounds or your own photos, with your logo. Redraw the designs with a click until you like them.</p></div>
-    <div class="tile"><h3>Highlight clips</h3><p>Vertical clips (1080×1920) that follow the speaker, end on a complete thought, and come with and without burned-in subtitles. Ask for a clip about a particular point and it finds it.</p></div>
-    <div class="tile"><h3>Ask the Sermon</h3><p>A conversation with the sermon itself: where was that illustration, what did the second point mean, give me three questions for the youth group. Plus the whole sermon as an MP3.</p></div>
+    <div class="tile reveal"><h3>Documents</h3><p>The transcript, ten discussion questions, short and extended summaries, four key quotes and five daily devotionals — each as PDF and Word, ready for a small group or the church newsletter.</p></div>
+    <div class="tile reveal"><h3>Quote cards</h3><p>Sixteen quote cards in your colours and shape of choice, on generated backgrounds or your own photos, with your logo. Redraw the designs with a click until you like them.</p></div>
+    <div class="tile reveal"><h3>Highlight clips</h3><p>Vertical clips (1080×1920) that follow the speaker, end on a complete thought, and come with and without burned-in subtitles. Ask for a clip about a particular point and it finds it.</p></div>
+    <div class="tile reveal"><h3>Ask the Sermon</h3><p>A conversation with the sermon itself: where was that illustration, what did the second point mean, give me three questions for the youth group. Plus the whole sermon as an MP3.</p></div>
+  </div>
+</section>
+
+<section id="samples">
+  <h2>What it looks like</h2>
+  <p class="lead">Everything below came out of Sermonship from a short sample sermon, “Deep Roots”, written for this page. The cards and documents are the app's actual output; the speaker in the clip is an illustration.</p>
+
+  <div class="sample">
+    <div class="copy reveal">
+      <h3>Quote cards, ready to post</h3>
+      <p>Four quotes the model found and checked against the transcript, each drawn on four designed backgrounds in your colours. Square, portrait, story or landscape; your logo in the corner if you want it.</p>
+      <div class="pills"><span class="pill">16 PNG cards</span><span class="pill">Your colours</span><span class="pill">Your photos, optional</span></div>
+    </div>
+    <div class="cards reveal">
+      <img class="tall" src="samples/card3.jpg" alt="Story-shaped quote card: “A dry season is not a sign that God has left. It is where roots learn to reach.”" width="720" height="1280" loading="lazy">
+      <img src="samples/card1.jpg" alt="" width="720" height="720" loading="lazy">
+      <img src="samples/card4.jpg" alt="" width="720" height="720" loading="lazy">
+    </div>
+  </div>
+
+  <div class="sample">
+    <div class="copy reveal">
+      <h3>Highlight clips that follow the speaker</h3>
+      <p>Sermonship picks the moments that stand on their own, reframes the wide recording to vertical around whoever is speaking, and burns in word-timed subtitles. You get each clip with and without them.</p>
+      <div class="pills"><span class="pill">1080 × 1920</span><span class="pill">Ends on a complete thought</span><span class="pill">Subtitled and clean</span></div>
+    </div>
+    <div class="reveal">
+      <div class="phone" role="img" aria-label="A vertical highlight clip with subtitles, as Sermonship produces it. The speaker is an illustration.">
+        <div class="light"></div>
+        <svg class="person" viewBox="0 0 270 480" aria-hidden="true">
+          <defs>
+            <linearGradient id="rim" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0" stop-color="#ffe3b8" stop-opacity="0.55"/>
+              <stop offset="1" stop-color="#ffe3b8" stop-opacity="0"/>
+            </linearGradient>
+            <linearGradient id="body" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0" stop-color="#3b4166"/>
+              <stop offset="1" stop-color="#141830"/>
+            </linearGradient>
+          </defs>
+          <!-- lectern -->
+          <path d="M70 480 L84 356 L186 356 L200 480 Z" fill="#141829"/>
+          <rect x="78" y="346" width="114" height="14" rx="4" fill="#1d2237"/>
+          <!-- shoulders and torso -->
+          <path d="M55 480 C58 388 92 352 135 352 C178 352 212 388 215 480 Z" fill="url(#body)"/>
+          <path d="M55 480 C58 388 92 352 135 352 C178 352 212 388 215 480 Z" fill="url(#rim)" opacity="0.5"/>
+          <!-- neck and head -->
+          <rect x="121" y="316" width="28" height="44" rx="10" fill="#262b48"/>
+          <ellipse cx="135" cy="290" rx="38" ry="44" fill="#2e3452"/>
+          <ellipse cx="135" cy="290" rx="38" ry="44" fill="url(#rim)" opacity="0.9"/>
+          <path d="M97 290 C97 262 114 246 135 246 C156 246 173 262 173 290 C160 300 150 304 135 304 C120 304 110 300 97 290 Z" fill="#20243d"/>
+          <!-- a raised hand mid-gesture -->
+          <path d="M196 404 C206 384 214 372 222 366 C230 360 236 366 232 376 C228 386 220 400 214 412 Z" fill="#2e3452"/>
+          <path d="M196 404 C206 384 214 372 222 366 C230 360 236 366 232 376 C228 386 220 400 214 412 Z" fill="url(#rim)" opacity="0.6"/>
+        </svg>
+        <span class="badge">Subtitled clip</span>
+        <div class="sub" id="sub"><span>Roots grow</span></div>
+        <div class="bar"><i></i></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sample">
+    <div class="copy reveal">
+      <h3>Documents your small group can use on Wednesday</h3>
+      <p>Five daily devotionals with a reflection and a prayer each, ten discussion questions that start easy, two summaries, the quotes and the full transcript. Every one as a PDF and as a Word file you can edit.</p>
+      <div class="pills"><span class="pill">PDF + Word</span><span class="pill">Checked for things only the room would know</span></div>
+    </div>
+    <div class="pages reveal">
+      <div class="page"><img src="samples/daily_devotionals.jpg" alt="First page of the Daily Devotionals PDF: “Planted, Not Potted” with a reflection and a prayer" width="900" height="1273" loading="lazy"></div>
+      <div class="page"><img src="samples/discussion_questions.jpg" alt="First page of the Discussion Questions PDF" width="900" height="1273" loading="lazy"></div>
+    </div>
+  </div>
+
+  <div class="sample">
+    <div class="copy reveal">
+      <h3>While it works</h3>
+      <p>A one-hour sermon takes about ten minutes on a recent Mac with the built-in model, and about six with a Gemini key. The clips are edited while the documents are being written, and you can keep using the Mac.</p>
+      <div class="pills"><span class="pill">~10 min offline</span><span class="pill">Cancel any time</span><span class="pill">Resumes if interrupted</span></div>
+    </div>
+    <div class="progress reveal" id="progress" aria-live="off">
+      <div class="title" id="p-title">Listening to the sermon</div>
+      <div class="detail" id="p-detail">Minute 38 of 64</div>
+      <div class="track"><i id="p-bar"></i></div>
+      <ol id="p-list"></ol>
+    </div>
   </div>
 </section>
 
@@ -199,5 +416,60 @@
 </footer>
 
 </div>
+
+<script>
+(function () {
+  var still = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // Reveal blocks as they scroll into view.
+  var blocks = document.querySelectorAll('.reveal');
+  if (!still && 'IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+    }, { rootMargin: '0px 0px -8% 0px', threshold: 0.12 });
+    blocks.forEach(function (b) { io.observe(b); });
+  } else {
+    blocks.forEach(function (b) { b.classList.add('in'); });
+  }
+
+  // Subtitles in the clip, a few words at a time the way the app breaks them.
+  var lines = ['Roots grow', 'in the dark,', 'long before', 'anyone sees fruit.', 'A dry season', 'is not a sign', 'that God has left.', 'It is where roots', 'learn to reach.'];
+  var sub = document.getElementById('sub'), li = 0;
+  if (!still) {
+    setInterval(function () {
+      li = (li + 1) % lines.length;
+      sub.innerHTML = '<span>' + lines[li] + '</span>';
+    }, 1000);
+  }
+
+  // The progress screen, stage by stage, with the details the app shows.
+  var stages = [
+    ['Listening to the sermon', 'Minute 38 of 64'],
+    ['Choosing highlight moments', 'Looking for 4 moments in 52 minutes of speech'],
+    ['Writing discussion questions', 'Easy ones first; editing highlight clip 1 of 4 alongside'],
+    ['Summarising the message', 'A short one and a longer one; editing highlight clip 2 of 4'],
+    ['Finding the best quotes', 'Gathering 8 candidates, then keeping the best 4'],
+    ['Writing daily devotionals', 'Five days, each with a reflection and a prayer'],
+    ['Designing quote cards', '16 cards on 4 backgrounds'],
+    ['Finishing up', 'Your sermon folder is ready']
+  ];
+  var list = document.getElementById('p-list'), title = document.getElementById('p-title'),
+      detail = document.getElementById('p-detail'), bar = document.getElementById('p-bar');
+  stages.forEach(function (s) { var el = document.createElement('li'); el.textContent = s[0]; list.appendChild(el); });
+  var items = list.children, at = 0;
+  function show(i) {
+    for (var k = 0; k < items.length; k++) {
+      items[k].className = k < i ? 'done' : (k === i ? 'now' : '');
+    }
+    title.textContent = stages[i][0];
+    detail.textContent = stages[i][1];
+    bar.style.width = Math.round(((i + 0.6) / stages.length) * 100) + '%';
+  }
+  show(0);
+  if (!still) {
+    setInterval(function () { at = (at + 1) % stages.length; show(at); }, 1700);
+  }
+})();
+</script>
 </body>
 </html>
