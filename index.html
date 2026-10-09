@@ -83,6 +83,8 @@
     padding-block: 40px 64px; border-bottom: 1px solid var(--rule);
   }
   .hero h1 { font-size: clamp(2.2rem, 5vw, 3.4rem); font-weight: 800; margin-bottom: 1rem; }
+  .free { display: inline-flex; align-items: center; gap: 9px; font-size: 0.9rem; font-weight: 600; color: var(--accent); background: var(--soft); border-radius: 999px; padding: 6px 14px 6px 10px; margin: 0 0 18px; }
+  .free .dot { width: 9px; height: 9px; border-radius: 50%; background: #2fb36b; box-shadow: 0 0 0 3px rgba(47, 179, 107, 0.22); flex: none; }
   .hero .lede { font-size: 1.2rem; color: var(--muted); max-width: 32em; margin-bottom: 1.6rem; }
   .download { display: flex; flex-direction: column; align-items: flex-start; gap: 10px; }
   .button {
@@ -293,6 +295,7 @@
 <header class="top">
   <img src="icon.png" alt="" width="44" height="44">
   <span class="name">Sermonship</span>
+  <span class="small muted" style="margin-left:2px">· free</span>
   <nav aria-label="Sections">
     <a href="#samples">Samples</a>
     <a href="#private">Privacy</a>
@@ -303,6 +306,7 @@
 
 <div class="hero">
   <div>
+    <p class="free"><span class="dot"></span>Free for churches. No account, no subscription, nothing to unlock.</p>
     <h1>One sermon in.<br>A week of discipleship out.</h1>
     <p class="lede">Drop in Sunday's recording and get the week's material: study guide, devotionals, quote cards and vertical highlight clips. Then ask for anything else in a sentence. All on your own Mac, with nothing uploaded anywhere.</p>
     <div class="download">
@@ -310,8 +314,8 @@
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3a1 1 0 0 1 1 1v9.59l3.3-3.3a1 1 0 1 1 1.4 1.42l-5 5a1 1 0 0 1-1.4 0l-5-5a1 1 0 1 1 1.4-1.42l3.3 3.3V4a1 1 0 0 1 1-1zM5 19a1 1 0 0 1 1-1h12a1 1 0 1 1 0 2H6a1 1 0 0 1-1-1z"/></svg>
         Download Sermonship 0.1.1
       </a>
-      <span class="meta small muted">Free for Mac · disk image, 743 MB · <a href="https://github.com/Nice-Take/sermonship-releases/releases">all versions</a></span>
-      <span class="small muted">Apple silicon · macOS 14 or later · no account</span>
+      <span class="meta small muted">Disk image, 743 MB · <a href="https://github.com/Nice-Take/sermonship-releases/releases">all versions</a> · Apple silicon, macOS 14 or later</span>
+      <span class="small muted">Sermonship costs nothing and will never ask for a card. The built-in writing model is free; if you choose to use your own Gemini key instead, Google bills you pennies per sermon.</span>
     </div>
   </div>
   <div class="fan" id="fan" aria-label="Three quote cards made by Sermonship">
