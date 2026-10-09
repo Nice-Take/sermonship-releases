@@ -359,8 +359,8 @@
   <div class="sample">
     <div class="copy reveal">
       <h3>While it works</h3>
-      <p>A one-hour sermon takes about ten minutes on a recent Mac with the built-in model, and about six with a Gemini key. The clips are edited while the documents are being written, and you can keep using the Mac.</p>
-      <div class="pills"><span class="pill">~10 min offline</span><span class="pill">Cancel any time</span><span class="pill">Resumes if interrupted</span></div>
+      <p>A one-hour sermon takes about twenty minutes on a recent Mac with the built-in model, and about six with a Gemini key. The next update brings the built-in model down to about ten by editing the clips while the documents are being written. Either way you can keep using the Mac.</p>
+      <div class="pills"><span class="pill">Minutes, not an afternoon</span><span class="pill">Cancel any time</span><span class="pill">Resumes if interrupted</span></div>
     </div>
     <div class="progress reveal" id="progress" aria-live="off">
       <div class="title" id="p-title">Listening to the sermon</div>
@@ -446,11 +446,12 @@
   var stages = [
     ['Listening to the sermon', 'Minute 38 of 64'],
     ['Choosing highlight moments', 'Looking for 4 moments in 52 minutes of speech'],
-    ['Writing discussion questions', 'Easy ones first; editing highlight clip 1 of 4 alongside'],
-    ['Summarising the message', 'A short one and a longer one; editing highlight clip 2 of 4'],
+    ['Writing discussion questions', 'Easy ones first, then the ones that take some thought'],
+    ['Summarising the message', 'A short one and a longer one'],
     ['Finding the best quotes', 'Gathering 8 candidates, then keeping the best 4'],
     ['Writing daily devotionals', 'Five days, each with a reflection and a prayer'],
     ['Designing quote cards', '16 cards on 4 backgrounds'],
+    ['Editing highlight clips', 'Clip 2 of 4, a 34-second clip'],
     ['Finishing up', 'Your sermon folder is ready']
   ];
   var list = document.getElementById('p-list'), title = document.getElementById('p-title'),
