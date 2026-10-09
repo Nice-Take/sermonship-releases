@@ -97,22 +97,29 @@
   .download .meta { font-variant-numeric: tabular-nums; }
   .download .meta a { color: var(--muted); }
 
-  /* the fan of quote cards in the hero */
-  .fan { position: relative; height: 440px; perspective: 1200px; }
-  .fan img {
-    position: absolute; width: 58%; border-radius: 14px;
-    box-shadow: 0 24px 60px rgba(20, 24, 60, 0.28), 0 2px 6px rgba(0,0,0,0.12);
+  /* the fan of quote cards in the hero: each card deals in, drifts, lifts under the pointer and follows it a little */
+  .fan { position: relative; height: 440px; }
+  .fan .deal {
+    position: absolute; width: 58%;
     opacity: 0; transform: translateY(40px) rotate(0deg) scale(0.96);
     animation: deal 0.9s cubic-bezier(.2,.7,.2,1) forwards;
   }
-  .fan img:nth-child(1) { left: 24%; top: 0;   --r: 2deg;  animation-delay: 0.15s; width: 52%; }
-  .fan img:nth-child(2) { left: 0;   top: 30%; --r: -8deg; animation-delay: 0.35s; }
-  .fan img:nth-child(3) { left: 46%; top: 38%; --r: 7deg;  animation-delay: 0.55s; }
-  .fan img:hover { z-index: 3; }
+  .fan .d1 { left: 24%; top: 0;   --r: 2deg;  animation-delay: 0.15s; width: 52%; }
+  .fan .d2 { left: 0;   top: 30%; --r: -8deg; animation-delay: 0.35s; }
+  .fan .d3 { left: 46%; top: 38%; --r: 7deg;  animation-delay: 0.55s; }
+  .fan .d1 { animation: deal 0.9s cubic-bezier(.2,.7,.2,1) 0.15s forwards, bob 7s ease-in-out 1.2s infinite; }
+  .fan .d2 { animation: deal 0.9s cubic-bezier(.2,.7,.2,1) 0.35s forwards, bob 8s ease-in-out 1.6s infinite; }
+  .fan .d3 { animation: deal 0.9s cubic-bezier(.2,.7,.2,1) 0.55s forwards, bob 9s ease-in-out 2.0s infinite; }
+  .fan .deal:hover { z-index: 3; }
+  .fan img {
+    width: 100%; border-radius: 14px;
+    box-shadow: 0 24px 60px rgba(20, 24, 60, 0.28), 0 2px 6px rgba(0,0,0,0.12);
+    transform: translate3d(calc(var(--px, 0) * var(--d)), calc(var(--py, 0) * var(--d)), 0) scale(var(--s, 1));
+    transition: transform 0.45s cubic-bezier(.2,.7,.2,1), box-shadow 0.45s ease;
+    will-change: transform;
+  }
+  .fan .deal:hover img { --s: 1.06; box-shadow: 0 34px 70px rgba(20, 24, 60, 0.38), 0 4px 10px rgba(0,0,0,0.16); }
   @keyframes deal { to { opacity: 1; transform: translateY(0) rotate(var(--r)) scale(1); } }
-  .fan .float1 { animation: deal 0.9s cubic-bezier(.2,.7,.2,1) 0.15s forwards, bob 7s ease-in-out 1.2s infinite; }
-  .fan .float2 { animation: deal 0.9s cubic-bezier(.2,.7,.2,1) 0.35s forwards, bob 8s ease-in-out 1.6s infinite; }
-  .fan .float3 { animation: deal 0.9s cubic-bezier(.2,.7,.2,1) 0.55s forwards, bob 9s ease-in-out 2.0s infinite; }
   @keyframes bob {
     0%, 100% { translate: 0 0; }
     50% { translate: 0 -8px; }
@@ -163,9 +170,10 @@
   /* the phone-shaped clip frame */
   .phone {
     position: relative; width: 270px; aspect-ratio: 9 / 16; margin: 0 auto;
-    border-radius: 30px; overflow: hidden; background: #0b1020 url(samples/stage.jpg) center / cover;
+    border-radius: 30px; overflow: hidden; background: #0b1020;
     box-shadow: 0 0 0 10px #16182a, 0 0 0 12px #2b2e45, 0 30px 70px rgba(0,0,0,0.4);
   }
+  .phone video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
   .phone .light {
     position: absolute; inset: 0;
     background: radial-gradient(42% 32% at 50% 40%, rgba(255, 232, 190, 0.55), rgba(255, 232, 190, 0.08) 60%, transparent 75%);
@@ -270,9 +278,10 @@
     .cards { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   }
   @media (prefers-reduced-motion: reduce) {
-    .fan img, .fan .float1, .fan .float2, .fan .float3 { animation: none; opacity: 1; transform: rotate(var(--r)); }
+    .fan .deal { animation: none; opacity: 1; transform: rotate(var(--r)); }
+    .fan img { transition: none; }
     .reveal { opacity: 1; transform: none; transition: none; }
-    .phone .bar i, .phone .sub span, .progress li.now::before { animation: none; }
+    .progress li.now::before { animation: none; }
     .cards img, .page, .button { transition: none; }
   }
 </style>
@@ -305,10 +314,10 @@
       <span class="small muted">Apple silicon · macOS 14 or later · no account</span>
     </div>
   </div>
-  <div class="fan" aria-label="Three quote cards made by Sermonship">
-    <img class="float1" src="samples/card2.jpg" alt="Quote card: “If you don't know where you're headed spiritually, you're never going to get there.”" width="720" height="720" loading="eager">
-    <img class="float2" src="samples/card1.jpg" alt="Quote card with 1 Corinthians 9:24" width="720" height="720" loading="eager">
-    <img class="float3" src="samples/card4.jpg" alt="Quote card: “It is not an attribute of God to be loving, it is the essence of God to be love.”" width="720" height="720" loading="eager">
+  <div class="fan" id="fan" aria-label="Three quote cards made by Sermonship">
+    <div class="deal d1" style="--d: 6px"><img src="samples/card2.jpg" alt="Quote card: “If you don't know where you're headed spiritually, you're never going to get there.”" width="720" height="720" loading="eager"></div>
+    <div class="deal d2" style="--d: 11px"><img src="samples/card1.jpg" alt="Quote card with 1 Corinthians 9:24" width="720" height="720" loading="eager"></div>
+    <div class="deal d3" style="--d: 16px"><img src="samples/card4.jpg" alt="Quote card: “It is not an attribute of God to be loving, it is the essence of God to be love.”" width="720" height="720" loading="eager"></div>
   </div>
 </div>
 
@@ -329,12 +338,11 @@
     <div class="result" id="a-result">
       <img class="card" id="r-card" src="samples/ask_card.jpg" alt="The card the request produced" width="720" height="1280" loading="lazy">
       <div class="doc" id="r-doc"><img src="samples/ask_document.jpg" alt="The one-page document the request produced" width="900" height="1273" loading="lazy"></div>
-      <div class="phone" id="r-clip" role="img" aria-label="The subtitled clip the request produced; the speaker is an illustration">
-        <div class="light"></div>
-        <svg class="person" aria-hidden="true"><use href="#person-shape" width="100%" height="100%"/></svg>
-        <span class="badge" id="r-clip-badge">Clip · 43 s</span>
-        <div class="sub" id="r-sub"><span>…</span></div>
-        <div class="bar"><i></i></div>
+      <div class="phone" id="r-clip" role="img" aria-label="The subtitled clip the request produced">
+        <video muted loop playsinline preload="metadata" poster="samples/clip_ask.jpg" width="360" height="640" id="r-video">
+          <source src="samples/clip_ask.mp4" type="video/mp4">
+        </video>
+        <span class="badge">Clip · 43 s</span>
       </div>
     </div>
   </div>
@@ -352,7 +360,7 @@
 
 <section id="samples">
   <h2>What it looks like</h2>
-  <p class="lead">Everything below is Sermonship's actual output from one Sunday sermon. The speaker in the clip is an illustration.</p>
+  <p class="lead">Everything below is Sermonship's actual output from one Sunday sermon.</p>
 
   <div class="sample">
     <div class="copy reveal">
@@ -375,37 +383,12 @@
       <div class="pills"><span class="pill">1080 × 1920</span><span class="pill">Ends on a complete thought</span><span class="pill">Subtitled and clean</span></div>
     </div>
     <div class="reveal">
-      <div class="phone" role="img" aria-label="A vertical highlight clip with subtitles, as Sermonship produces it. The speaker is an illustration.">
-        <div class="light"></div>
-        <svg class="person" aria-hidden="true">
-          <defs>
-            <linearGradient id="rim" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0" stop-color="#ffe3b8" stop-opacity="0.55"/>
-              <stop offset="1" stop-color="#ffe3b8" stop-opacity="0"/>
-            </linearGradient>
-            <linearGradient id="body" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0" stop-color="#3b4166"/>
-              <stop offset="1" stop-color="#141830"/>
-            </linearGradient>
-            <symbol id="person-shape" viewBox="0 0 270 480" preserveAspectRatio="xMidYMax slice">
-              <path d="M70 480 L84 356 L186 356 L200 480 Z" fill="#141829"/>
-              <rect x="78" y="346" width="114" height="14" rx="4" fill="#1d2237"/>
-              <path d="M55 480 C58 388 92 352 135 352 C178 352 212 388 215 480 Z" fill="url(#body)"/>
-              <path d="M55 480 C58 388 92 352 135 352 C178 352 212 388 215 480 Z" fill="url(#rim)" opacity="0.5"/>
-              <rect x="121" y="316" width="28" height="44" rx="10" fill="#262b48"/>
-              <ellipse cx="135" cy="290" rx="38" ry="44" fill="#2e3452"/>
-              <ellipse cx="135" cy="290" rx="38" ry="44" fill="url(#rim)" opacity="0.9"/>
-              <path d="M97 290 C97 262 114 246 135 246 C156 246 173 262 173 290 C160 300 150 304 135 304 C120 304 110 300 97 290 Z" fill="#20243d"/>
-              <path d="M196 404 C206 384 214 372 222 366 C230 360 236 366 232 376 C228 386 220 400 214 412 Z" fill="#2e3452"/>
-              <path d="M196 404 C206 384 214 372 222 366 C230 360 236 366 232 376 C228 386 220 400 214 412 Z" fill="url(#rim)" opacity="0.6"/>
-            </symbol>
-          </defs>
-          <use href="#person-shape" width="100%" height="100%"/>
-        </svg>
-        <span class="badge">Subtitled clip · 50 s</span>
-        <div class="sub" id="sub"><span></span></div>
-        <div class="bar"><i></i></div>
-      </div>
+      <div class="phone" role="img" aria-label="A subtitled vertical highlight clip, as Sermonship produces it">
+        <video autoplay muted loop playsinline preload="metadata" poster="samples/clip_main.jpg" width="360" height="640">
+          <source src="samples/clip_main.mp4" type="video/mp4">
+        </video>
+        <span class="badge">Subtitled clip · 14 s of 50</span>
+      </div></div>
     </div>
   </div>
 
@@ -500,21 +483,6 @@
     blocks.forEach(function (b) { b.classList.add('in'); });
   }
 
-  // Subtitles in the clip, a few words at a time the way the app breaks them.
-  var lines = ["It says, do you", "not know that in a", "race all the", "runners run, but", "only one receives", "the prize?", "So run that you", "may obtain it.", "Every athlete", "exercises self", "-control in all", "things.", "They do it to", "receive a"];
-  var askLines = ["Which direction do", "you err in?", "Because we all", "tend to err in one", "direction or the", "other.", "Maybe you've got", "neither and you", "need both of them.", "But my hope and my", "prayer is that", "recognizing that", "these two are the", "two keys necessary", "to unlocking the", "future that God"];
-  var sub = document.getElementById('sub'), li = 0, rsub = document.getElementById('r-sub'), ri = 0;
-  sub.innerHTML = '<span>' + lines[0] + '</span>'; rsub.innerHTML = '<span>' + askLines[0] + '</span>';
-  if (!still) {
-    setInterval(function () {
-      li = (li + 1) % lines.length;
-      sub.innerHTML = '<span>' + lines[li] + '</span>';
-      ri = (ri + 1) % askLines.length;
-      rsub.innerHTML = '<span>' + askLines[ri] + '</span>';
-    }, 1000);
-  }
-
-
   // "Or just ask": a request types itself, the app works, the result appears.
   var asks = [
     { ws: 'Create Custom Image', sub: 'A line from this sermon on a card, in your colours, with your logo.', step: 'What should it say?',
@@ -534,7 +502,11 @@
   });
   function later(fn, ms) { timers.push(setTimeout(fn, ms)); }
   function clearTimers() { timers.forEach(clearTimeout); timers = []; }
-  function showResult(id) { results.forEach(function (r) { el(r).classList.toggle('show', r === id); }); }
+  function showResult(id) {
+    results.forEach(function (r) { el(r).classList.toggle('show', r === id); });
+    var v = el('r-video');
+    if (id === 'r-clip') { v.currentTime = 0; var pr = v.play(); if (pr && pr.catch) { pr.catch(function () {}); } } else { v.pause(); }
+  }
   function play(i) {
     clearTimers(); current = i;
     var a = asks[i];
@@ -558,6 +530,17 @@
     later(type, 600);
   }
   play(0);
+
+  // The hero cards follow the pointer a little, each at its own depth.
+  var fan = document.getElementById('fan');
+  if (fan && !still && window.matchMedia('(hover: hover)').matches) {
+    fan.addEventListener('mousemove', function (e) {
+      var r = fan.getBoundingClientRect();
+      fan.style.setProperty('--px', ((e.clientX - r.left) / r.width - 0.5).toFixed(3));
+      fan.style.setProperty('--py', ((e.clientY - r.top) / r.height - 0.5).toFixed(3));
+    });
+    fan.addEventListener('mouseleave', function () { fan.style.setProperty('--px', 0); fan.style.setProperty('--py', 0); });
+  }
 
   // The progress screen, stage by stage, with the details the app shows.
   var stages = [
