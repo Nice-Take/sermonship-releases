@@ -111,14 +111,14 @@
   .fan .d2 { animation: deal 0.9s cubic-bezier(.2,.7,.2,1) 0.35s forwards, bob 8s ease-in-out 1.6s infinite; }
   .fan .d3 { animation: deal 0.9s cubic-bezier(.2,.7,.2,1) 0.55s forwards, bob 9s ease-in-out 2.0s infinite; }
   .fan .deal:hover { z-index: 3; }
+  .fan .deal { will-change: transform; }
   .fan img {
     width: 100%; border-radius: 14px;
     box-shadow: 0 24px 60px rgba(20, 24, 60, 0.28), 0 2px 6px rgba(0,0,0,0.12);
-    transform: translate3d(calc(var(--px, 0) * var(--d)), calc(var(--py, 0) * var(--d)), 0) scale(var(--s, 1));
-    transition: transform 0.45s cubic-bezier(.2,.7,.2,1), box-shadow 0.45s ease;
-    will-change: transform;
+    transform: translateZ(0);
+    transition: transform 0.4s cubic-bezier(.2,.7,.2,1);
   }
-  .fan .deal:hover img { --s: 1.06; box-shadow: 0 34px 70px rgba(20, 24, 60, 0.38), 0 4px 10px rgba(0,0,0,0.16); }
+  .fan .deal:hover img { transform: translateY(-10px) scale(1.04); }
   @keyframes deal { to { opacity: 1; transform: translateY(0) rotate(var(--r)) scale(1); } }
   @keyframes bob {
     0%, 100% { translate: 0 0; }
@@ -315,9 +315,9 @@
     </div>
   </div>
   <div class="fan" id="fan" aria-label="Three quote cards made by Sermonship">
-    <div class="deal d1" style="--d: 6px"><img src="samples/card2.jpg" alt="Quote card: “If you don't know where you're headed spiritually, you're never going to get there.”" width="720" height="720" loading="eager"></div>
-    <div class="deal d2" style="--d: 11px"><img src="samples/card1.jpg" alt="Quote card with 1 Corinthians 9:24" width="720" height="720" loading="eager"></div>
-    <div class="deal d3" style="--d: 16px"><img src="samples/card4.jpg" alt="Quote card: “It is not an attribute of God to be loving, it is the essence of God to be love.”" width="720" height="720" loading="eager"></div>
+    <div class="deal d1"><img src="samples/card2.jpg" alt="Quote card: “If you don't know where you're headed spiritually, you're never going to get there.”" width="720" height="720" loading="eager"></div>
+    <div class="deal d2"><img src="samples/card1.jpg" alt="Quote card with 1 Corinthians 9:24" width="720" height="720" loading="eager"></div>
+    <div class="deal d3"><img src="samples/card4.jpg" alt="Quote card: “It is not an attribute of God to be loving, it is the essence of God to be love.”" width="720" height="720" loading="eager"></div>
   </div>
 </div>
 
@@ -388,7 +388,7 @@
           <source src="samples/clip_main.mp4" type="video/mp4">
         </video>
         <span class="badge">Subtitled clip · 14 s of 50</span>
-      </div></div>
+      </div>
     </div>
   </div>
 
@@ -530,17 +530,6 @@
     later(type, 600);
   }
   play(0);
-
-  // The hero cards follow the pointer a little, each at its own depth.
-  var fan = document.getElementById('fan');
-  if (fan && !still && window.matchMedia('(hover: hover)').matches) {
-    fan.addEventListener('mousemove', function (e) {
-      var r = fan.getBoundingClientRect();
-      fan.style.setProperty('--px', ((e.clientX - r.left) / r.width - 0.5).toFixed(3));
-      fan.style.setProperty('--py', ((e.clientY - r.top) / r.height - 0.5).toFixed(3));
-    });
-    fan.addEventListener('mouseleave', function () { fan.style.setProperty('--px', 0); fan.style.setProperty('--py', 0); });
-  }
 
   // The progress screen, stage by stage, with the details the app shows.
   var stages = [
