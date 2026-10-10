@@ -272,6 +272,7 @@
   ul.plain li { margin-bottom: 0.45em; }
   .notes ul { padding-left: 1.2em; margin: 0; }
   .notes li { margin-bottom: 0.5em; }
+  .notes h2 + h2, .notes h3 { display: none; }
   kbd { font: inherit; background: var(--soft); border-radius: 6px; padding: 1px 7px; }
 
   footer { padding-block: 30px 48px; color: var(--muted); font-size: 0.92rem; display: flex; flex-wrap: wrap; gap: 8px 24px; align-items: center; border-top: 1px solid var(--rule); }
@@ -323,11 +324,11 @@
     </h1>
     <p class="lede">Drop in Sunday's recording and Sermonship finds the moments worth sharing, reframes them to vertical around the speaker and burns in the subtitles. Then it designs the quote cards and writes the study guide and devotionals, all on your own Mac, uploading nothing. Need a specific clip or a new document? Ask for it in one sentence.</p>
     <div class="download">
-      <a class="button" href="https://github.com/Nice-Take/sermonship-releases/releases/download/v0.1.1/Sermonship-0.1.1.dmg">
+      <a class="button" href="https://github.com/Nice-Take/sermonship-releases/releases/download/v0.2.0/Sermonship-0.2.0.dmg">
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3a1 1 0 0 1 1 1v9.59l3.3-3.3a1 1 0 1 1 1.4 1.42l-5 5a1 1 0 0 1-1.4 0l-5-5a1 1 0 1 1 1.4-1.42l3.3 3.3V4a1 1 0 0 1 1-1zM5 19a1 1 0 0 1 1-1h12a1 1 0 1 1 0 2H6a1 1 0 0 1-1-1z"/></svg>
-        Download Sermonship 0.1.1
+        Download Sermonship 0.2.0
       </a>
-      <span class="meta small muted">Disk image, 743 MB · <a href="https://github.com/Nice-Take/sermonship-releases/releases">all versions</a> · Apple silicon, macOS 14 or later</span>
+      <span class="meta small muted">Disk image, 815 MB · released 10 October 2026 · <a href="https://github.com/Nice-Take/sermonship-releases/releases">all versions</a> · Apple silicon, macOS 14 or later</span>
       <span class="small muted">Sermonship costs nothing and will never ask for a card. The built-in writing model is free; if you choose to use your own Gemini key instead, Google bills you pennies per sermon.</span>
     </div>
   </div>
@@ -431,7 +432,7 @@
   <div class="sample">
     <div class="copy reveal">
       <h3>While it works</h3>
-      <p>A one-hour sermon takes about twenty minutes on a recent Mac with the built-in model, and about six with a Gemini key. The next update brings the built-in model down to about ten by editing the clips while the documents are being written. Either way you can keep using the Mac.</p>
+      <p>A one-hour sermon takes about ten minutes on a recent Mac with the built-in model, and about six with a Gemini key. The clips are cut while the documents are being written, and you can keep using the Mac throughout.</p>
       <div class="pills"><span class="pill">Minutes, not an afternoon</span><span class="pill">Cancel any time</span><span class="pill">Resumes if interrupted</span></div>
     </div>
     <div class="progress reveal" id="progress" aria-live="off">
@@ -472,11 +473,11 @@
 </section>
 
 <section id="notes">
-  <h2>What's new in 0.1.1</h2>
+  <h2>What's new in 0.2.0</h2>
   <div class="notes"><ul>
-  <li>Quote cards: a ✦ button in the card editor draws four more designed backgrounds in your colours; "New Designs" above the cards redraws the whole set (with Undo).</li>
-  <li>My Backgrounds: photos you choose are kept in your Sermonship folder and offered again next time; right-click a designed background to keep it too.</li>
-  <li>The log (Help › Show Logs) now records what Sermonship found on launch, to make problems easier to report.</li>
+  <li>Ask for what you need. Each sermon's page now has Videos, Images and Documents workspaces, each with a Create Custom button: describe the clip, the quote card or the document you want in a sentence and Sermonship reads the whole sermon and makes it. Clips take a length (short, standard or long) and can be cut from a passage you choose; documents follow the brief, however small; cards come at any shape on any background.</li>
+  <li>About twice as fast with the built-in writing model. The sermon is transcribed on the Mac's GPU, the clips are cut while the documents are being written, and the model thinks for as long as each step needs rather than longer. A one-hour sermon now takes about ten minutes on a recent Mac.</li>
+  <li>Smaller things: a short highlight list is asked for again instead of being accepted; the shape picker shows a preview; custom cards no longer count as part of the quote-card set; the workspaces fit the window at its smallest size.</li>
 </ul></div>
 </section>
 
