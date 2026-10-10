@@ -82,9 +82,20 @@
     display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: 40px; align-items: center;
     padding-block: 40px 64px; border-bottom: 1px solid var(--rule);
   }
-  .hero h1 { font-size: clamp(2.2rem, 5vw, 3.4rem); font-weight: 800; margin-bottom: 1rem; }
-  .free { display: inline-flex; align-items: center; gap: 9px; font-size: 0.9rem; font-weight: 600; color: var(--accent); background: var(--soft); border-radius: 999px; padding: 6px 14px 6px 10px; margin: 0 0 18px; }
-  .free .dot { width: 9px; height: 9px; border-radius: 50%; background: #2fb36b; box-shadow: 0 0 0 3px rgba(47, 179, 107, 0.22); flex: none; }
+  .hero h1.flow { margin: 0 0 1.1rem; font-weight: 800; line-height: 1.05; }
+  .flow-in { display: block; font-size: clamp(1.2rem, 2.1vw, 1.55rem); font-weight: 600; color: var(--muted); margin: 0 0 14px 2px; }
+  .flow em { font-style: normal; color: var(--accent); }
+  .flow-outs { position: relative; display: grid; gap: 0.08em; margin-left: 4px; padding-left: 28px; font-size: clamp(2rem, 4.4vw, 3.1rem); letter-spacing: -0.02em; }
+  .flow-outs::before { content: ""; position: absolute; left: 0; top: -12px; bottom: 0.55em; width: 3px; border-radius: 2px; background: var(--accent); transform-origin: top; animation: rail 0.9s cubic-bezier(0.2, 0.7, 0.2, 1) both; }
+  .flow-outs > span { position: relative; opacity: 0; animation: pop 0.6s cubic-bezier(0.2, 0.7, 0.2, 1) forwards; }
+  .flow-outs > span::before { content: ""; position: absolute; left: -28px; top: calc(0.55em - 1px); width: 17px; height: 3px; border-radius: 2px; background: var(--accent); }
+  .flow-outs > span:nth-child(1) { animation-delay: 0.2s; }
+  .flow-outs > span:nth-child(2) { animation-delay: 0.38s; }
+  .flow-outs > span:nth-child(3) { animation-delay: 0.56s; }
+  .flow-outs > span:nth-child(4) { animation-delay: 0.74s; }
+  @keyframes rail { from { transform: scaleY(0); } to { transform: none; } }
+  @keyframes pop { from { opacity: 0; transform: translateX(-10px); } to { opacity: 1; transform: none; } }
+  .free { display: inline-block; font-size: 0.9rem; font-weight: 600; color: var(--accent); background: var(--soft); border-radius: 999px; padding: 6px 14px; margin: 0 0 18px; }
   .hero .lede { font-size: 1.2rem; color: var(--muted); max-width: 32em; margin-bottom: 1.6rem; }
   .download { display: flex; flex-direction: column; align-items: flex-start; gap: 10px; }
   .button {
@@ -282,6 +293,7 @@
   @media (prefers-reduced-motion: reduce) {
     .fan .deal { animation: none; opacity: 1; transform: rotate(var(--r)); }
     .fan img { transition: none; }
+    .flow-outs::before, .flow-outs > span { animation: none; opacity: 1; transform: none; }
     .reveal { opacity: 1; transform: none; transition: none; }
     .progress li.now::before { animation: none; }
     .cards img, .page, .button { transition: none; }
@@ -295,7 +307,6 @@
 <header class="top">
   <img src="icon.png" alt="" width="44" height="44">
   <span class="name">Sermonship</span>
-  <span class="small muted" style="margin-left:2px">· free</span>
   <nav aria-label="Sections">
     <a href="#samples">Samples</a>
     <a href="#private">Privacy</a>
@@ -306,8 +317,11 @@
 
 <div class="hero">
   <div>
-    <p class="free"><span class="dot"></span>Free for churches. No account, no subscription, nothing to unlock.</p>
-    <h1>One recording in.<br>Study guides, devotionals, cards and clips out.</h1>
+    <p class="free">A free tool</p>
+    <h1 class="flow" aria-label="One recording in. Study guides, devotionals, quote cards and clips out.">
+      <span class="flow-in" aria-hidden="true">One recording <em>in.</em></span>
+      <span class="flow-outs" aria-hidden="true"><span>Study guides,</span><span>devotionals,</span><span>quote cards</span><span>and clips <em>out.</em></span></span>
+    </h1>
     <p class="lede">Drop in Sunday's recording and Sermonship transcribes it, writes the study guide, devotionals and quotes, designs the quote cards and cuts the vertical clips. Ask it for anything else in a sentence. It runs on your own Mac and uploads nothing.</p>
     <div class="download">
       <a class="button" href="https://github.com/Nice-Take/sermonship-releases/releases/download/v0.1.1/Sermonship-0.1.1.dmg">
