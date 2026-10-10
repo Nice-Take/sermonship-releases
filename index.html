@@ -3,12 +3,12 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Sermonship — one recording in, study guides, devotionals, cards and clips out</title>
-<meta name="description" content="Sermonship is a free Mac app that turns a sermon recording into a transcript, summaries, discussion questions, devotionals, quote cards and highlight clips — entirely on your own Mac.">
+<title>Sermonship — one recording in, subtitled clips, quote cards, study guides and devotionals out</title>
+<meta name="description" content="Sermonship is a free Mac app that turns a sermon recording into subtitled vertical clips that follow the speaker, quote cards, study guides and devotionals — entirely on your own Mac.">
 <link rel="icon" href="icon.png" type="image/png">
 <link rel="apple-touch-icon" href="icon.png">
 <meta property="og:title" content="Sermonship">
-<meta property="og:description" content="A free Mac tool: one sermon recording in, study guides, devotionals, quote cards and highlight clips out, without uploading anything.">
+<meta property="og:description" content="A free Mac tool: one sermon recording in, subtitled clips, quote cards, study guides and devotionals out, without uploading anything.">
 <meta property="og:image" content="https://sermonship.com/samples/card1.jpg">
 <meta property="og:url" content="https://sermonship.com/">
 <meta name="theme-color" content="#1c265c">
@@ -110,32 +110,30 @@
   .download .meta { font-variant-numeric: tabular-nums; }
   .download .meta a { color: var(--muted); }
 
-  /* the fan of quote cards in the hero: each card deals in, drifts, lifts under the pointer and follows it a little */
-  .fan { position: relative; height: 440px; }
+  /* the hero stage: the clip plays in front, two quote cards deal in behind it, everything drifts a little */
+  .fan { position: relative; height: 480px; }
   .fan .deal {
-    position: absolute; width: 58%;
+    position: absolute; width: 46%;
     opacity: 0; transform: translateY(40px) rotate(0deg) scale(0.96);
-    animation: deal 0.9s cubic-bezier(.2,.7,.2,1) forwards;
+    will-change: transform;
   }
-  .fan .d1 { left: 24%; top: 0;   --r: 2deg;  animation-delay: 0.15s; width: 52%; }
-  .fan .d2 { left: 0;   top: 30%; --r: -8deg; animation-delay: 0.35s; }
-  .fan .d3 { left: 46%; top: 38%; --r: 7deg;  animation-delay: 0.55s; }
-  .fan .d1 { animation: deal 0.9s cubic-bezier(.2,.7,.2,1) 0.15s forwards, bob 7s ease-in-out 1.2s infinite; }
-  .fan .d2 { animation: deal 0.9s cubic-bezier(.2,.7,.2,1) 0.35s forwards, bob 8s ease-in-out 1.6s infinite; }
-  .fan .d3 { animation: deal 0.9s cubic-bezier(.2,.7,.2,1) 0.55s forwards, bob 9s ease-in-out 2.0s infinite; }
-  .fan .deal:hover { z-index: 3; }
-  .fan .deal { will-change: transform; }
+  .fan .d1 { left: 0;    top: 9%;  --r: -9deg; animation: deal 0.9s cubic-bezier(.2,.7,.2,1) 0.15s forwards, bob 8s ease-in-out 1.6s infinite; }
+  .fan .d2 { right: 0;   top: 24%; --r: 8deg;  animation: deal 0.9s cubic-bezier(.2,.7,.2,1) 0.35s forwards, bob 9s ease-in-out 2.0s infinite; }
+  .fan .d3 { left: 50%; top: 0; width: 56%; margin-left: -28%; --r: 0deg; z-index: 2;
+    animation: deal 1s cubic-bezier(.2,.7,.2,1) 0.55s forwards, bob 7s ease-in-out 1.2s infinite; }
   .fan img {
     width: 100%; border-radius: 14px;
     box-shadow: 0 24px 60px rgba(20, 24, 60, 0.28), 0 2px 6px rgba(0,0,0,0.12);
     transform: translateZ(0);
     transition: transform 0.4s cubic-bezier(.2,.7,.2,1);
   }
-  .fan .deal:hover img { transform: translateY(-10px) scale(1.04); }
+  .fan .deal:hover img { transform: translateY(-8px) scale(1.03); }
+  .fan .phone { width: 100%; max-width: 262px; box-shadow: 0 0 0 9px #16182a, 0 0 0 11px #2b2e45, 0 34px 80px rgba(0,0,0,0.5); }
   @keyframes deal { to { opacity: 1; transform: translateY(0) rotate(var(--r)) scale(1); } }
   @keyframes bob {
     0%, 100% { translate: 0 0; }
     50% { translate: 0 -8px; }
+  }
   }
 
   section { padding-block: 52px; border-bottom: 1px solid var(--rule); }
@@ -282,7 +280,8 @@
 
   @media (max-width: 820px) {
     .hero { grid-template-columns: 1fr; gap: 28px; padding-block: 24px 40px; }
-    .fan { height: 320px; }
+    .fan { height: 400px; }
+    .fan .d3 { width: 52%; margin-left: -26%; }
     .grid, .two, .sample, .sample:nth-child(even), .ask { grid-template-columns: minmax(0, 1fr); }
     .result { min-height: 360px; }
     .sample:nth-child(even) .copy { order: 0; }
@@ -318,11 +317,11 @@
 <div class="hero">
   <div>
     <p class="free">A free tool</p>
-    <h1 class="flow" aria-label="One recording in. Study guides, devotionals, quote cards and clips out.">
+    <h1 class="flow" aria-label="One recording in. Subtitled clips, quote cards, study guides and devotionals out.">
       <span class="flow-in" aria-hidden="true">One recording <em>in.</em></span>
-      <span class="flow-outs" aria-hidden="true"><span>Study guides,</span><span>devotionals,</span><span>quote cards</span><span>and clips <em>out.</em></span></span>
+      <span class="flow-outs" aria-hidden="true"><span>Subtitled clips,</span><span>quote cards,</span><span>study guides</span><span>and devotionals <em>out.</em></span></span>
     </h1>
-    <p class="lede">Drop in Sunday's recording and Sermonship transcribes it, writes the study guide, devotionals and quotes, designs the quote cards and cuts the vertical clips. Ask it for anything else in a sentence. It runs on your own Mac and uploads nothing.</p>
+    <p class="lede">Drop in Sunday's recording and Sermonship finds the moments worth sharing, reframes them to vertical around the speaker and burns in the subtitles. Then it designs the quote cards and writes the study guide and devotionals. Ask it for anything else in a sentence. It runs on your own Mac and uploads nothing.</p>
     <div class="download">
       <a class="button" href="https://github.com/Nice-Take/sermonship-releases/releases/download/v0.1.1/Sermonship-0.1.1.dmg">
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3a1 1 0 0 1 1 1v9.59l3.3-3.3a1 1 0 1 1 1.4 1.42l-5 5a1 1 0 0 1-1.4 0l-5-5a1 1 0 1 1 1.4-1.42l3.3 3.3V4a1 1 0 0 1 1-1zM5 19a1 1 0 0 1 1-1h12a1 1 0 1 1 0 2H6a1 1 0 0 1-1-1z"/></svg>
@@ -332,24 +331,31 @@
       <span class="small muted">Sermonship costs nothing and will never ask for a card. The built-in writing model is free; if you choose to use your own Gemini key instead, Google bills you pennies per sermon.</span>
     </div>
   </div>
-  <div class="fan" id="fan" aria-label="Three quote cards made by Sermonship">
-    <div class="deal d1"><img src="samples/card2.jpg" alt="Quote card: “If you don't know where you're headed spiritually, you're never going to get there.”" width="720" height="720" loading="eager"></div>
-    <div class="deal d2"><img src="samples/card1.jpg" alt="Quote card with 1 Corinthians 9:24" width="720" height="720" loading="eager"></div>
-    <div class="deal d3"><img src="samples/card4.jpg" alt="Quote card: “It is not an attribute of God to be loving, it is the essence of God to be love.”" width="720" height="720" loading="eager"></div>
+  <div class="fan" id="fan" aria-label="A subtitled vertical clip and two quote cards made by Sermonship">
+    <div class="deal d1"><img src="samples/card1.jpg" alt="Quote card with 1 Corinthians 9:24" width="720" height="720" loading="eager"></div>
+    <div class="deal d2"><img src="samples/card4.jpg" alt="Quote card: “It is not an attribute of God to be loving, it is the essence of God to be love.”" width="720" height="720" loading="eager"></div>
+    <div class="deal d3">
+      <div class="phone" role="img" aria-label="A subtitled vertical highlight clip that follows the speaker">
+        <video autoplay muted loop playsinline preload="auto" poster="samples/clip_main.jpg" width="360" height="640">
+          <source src="samples/clip_main.mp4" type="video/mp4">
+        </video>
+        <span class="badge">Subtitled clip · follows the speaker</span>
+      </div>
+    </div>
   </div>
 </div>
 
 
 <section id="ask">
   <h2>Or just ask for what you need</h2>
-  <p class="lead">The week's material is the default. Anything else is one sentence in the app, in your words: it reads the whole sermon and makes exactly that.</p>
+  <p class="lead">The week's material is the default. Anything else is one sentence in the app, in your words: a clip about a particular point, a card with the line you remember, a document to your brief. It reads the whole sermon and makes exactly that.</p>
   <div class="ask">
     <div class="panel" id="ask-panel">
-      <div class="ws"><i></i><span id="a-ws">Create Custom Image</span></div>
-      <div class="sub2" id="a-sub">A line from this sermon on a card, in your colours, with your logo.</div>
-      <div class="step" id="a-step">What should it say?</div>
+      <div class="ws"><i></i><span id="a-ws">Create Custom Clip</span></div>
+      <div class="sub2" id="a-sub">Clips follow the speaker, end on a complete thought, and come with and without subtitles.</div>
+      <div class="step" id="a-step">What moment?</div>
       <div class="field" id="a-field"><span class="ph" id="a-ph"></span><span id="a-text"></span><span class="caret" id="a-caret"></span></div>
-      <div class="go" id="a-go"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l1.8 5.2L19 9l-5.2 1.8L12 16l-1.8-5.2L5 9l5.2-1.8L12 2zm6 11l1 3 3 1-3 1-1 3-1-3-3-1 3-1 1-3zM4 14l.8 2.2L7 17l-2.2.8L4 20l-.8-2.2L1 17l2.2-.8L4 14z"/></svg><span id="a-btn">Make the Card</span></div>
+      <div class="go" id="a-go"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l1.8 5.2L19 9l-5.2 1.8L12 16l-1.8-5.2L5 9l5.2-1.8L12 2zm6 11l1 3 3 1-3 1-1 3-1-3-3-1 3-1 1-3zM4 14l.8 2.2L7 17l-2.2.8L4 20l-.8-2.2L1 17l2.2-.8L4 14z"/></svg><span id="a-btn">Find It for Me</span></div>
       <div class="status" id="a-status"><span class="dot"></span><span id="a-msg"></span></div>
       <div class="asks" id="a-asks" aria-label="Examples"></div>
     </div>
@@ -369,9 +375,9 @@
 <section id="what">
   <h2>From one video you get</h2>
   <div class="grid">
-    <div class="tile reveal"><h3>Documents</h3><p>The transcript, ten discussion questions, short and extended summaries, four key quotes and five daily devotionals — each as PDF and Word, ready for a small group or the church newsletter.</p></div>
+    <div class="tile reveal"><h3>Highlight clips</h3><p>Vertical clips (1080×1920) cut from the wide recording. It picks the moments that stand on their own, keeps the camera on whoever is speaking, ends on a complete thought and burns in word-timed subtitles. Each comes with and without them.</p></div>
     <div class="tile reveal"><h3>Quote cards</h3><p>Sixteen quote cards in your colours and shape of choice, on generated backgrounds or your own photos, with your logo. Redraw the designs with a click until you like them.</p></div>
-    <div class="tile reveal"><h3>Highlight clips</h3><p>Vertical clips (1080×1920) that follow the speaker, end on a complete thought, and come with and without burned-in subtitles. Ask for a clip about a particular point and it finds it.</p></div>
+    <div class="tile reveal"><h3>Documents</h3><p>The transcript, ten discussion questions, short and extended summaries, four key quotes and five daily devotionals — each as PDF and Word, ready for a small group or the church newsletter.</p></div>
     <div class="tile reveal"><h3>Anything else, in a sentence</h3><p>A clip about a particular point, a document to your own brief, a card with the line you remember, or a question for the sermon itself. Say it in your words; it reads the whole sermon and makes it. Plus the whole sermon as an MP3.</p></div>
   </div>
 </section>
@@ -379,6 +385,22 @@
 <section id="samples">
   <h2>What it looks like</h2>
   <p class="lead">Everything below is Sermonship's actual output from one Sunday sermon: “The Keys to Glory” by Brandon Hendriks.</p>
+
+  <div class="sample">
+    <div class="copy reveal">
+      <h3>Clips that follow the speaker, subtitled</h3>
+      <p>This is the part no chatbot does. Sermonship watches the wide recording, picks the moments that stand on their own, reframes each to vertical around whoever is speaking and burns in word-timed subtitles. You get every clip with and without them, ready to post.</p>
+      <div class="pills"><span class="pill">1080 × 1920</span><span class="pill">Ends on a complete thought</span><span class="pill">Subtitled and clean</span></div>
+    </div>
+    <div class="reveal">
+      <div class="phone" role="img" aria-label="A subtitled vertical highlight clip, as Sermonship produces it">
+        <video autoplay muted loop playsinline preload="metadata" poster="samples/clip_main.jpg" width="360" height="640">
+          <source src="samples/clip_main.mp4" type="video/mp4">
+        </video>
+        <span class="badge">Subtitled clip · 14 s of 50</span>
+      </div>
+    </div>
+  </div>
 
   <div class="sample">
     <div class="copy reveal">
@@ -391,22 +413,6 @@
       <img src="samples/card2.jpg" alt="" width="720" height="720" loading="lazy">
       <img src="samples/card3.jpg" alt="Quote card: “We need to not be a vessel of God's love. We need to be a conduit of God's love.”" width="720" height="720" loading="lazy">
       <img src="samples/card4.jpg" alt="" width="720" height="720" loading="lazy">
-    </div>
-  </div>
-
-  <div class="sample">
-    <div class="copy reveal">
-      <h3>Highlight clips that follow the speaker</h3>
-      <p>Sermonship picks the moments that stand on their own, reframes the wide recording to vertical around whoever is speaking, and burns in word-timed subtitles. You get each clip with and without them.</p>
-      <div class="pills"><span class="pill">1080 × 1920</span><span class="pill">Ends on a complete thought</span><span class="pill">Subtitled and clean</span></div>
-    </div>
-    <div class="reveal">
-      <div class="phone" role="img" aria-label="A subtitled vertical highlight clip, as Sermonship produces it">
-        <video autoplay muted loop playsinline preload="metadata" poster="samples/clip_main.jpg" width="360" height="640">
-          <source src="samples/clip_main.mp4" type="video/mp4">
-        </video>
-        <span class="badge">Subtitled clip · 14 s of 50</span>
-      </div>
     </div>
   </div>
 
@@ -503,12 +509,12 @@
 
   // "Or just ask": a request types itself, the app works, the result appears.
   var asks = [
+    { ws: 'Create Custom Clip', sub: 'Clips follow the speaker, end on a complete thought, and come with and without subtitles.', step: 'What moment?',
+      brief: ASK_CLIP_BRIEF, btn: 'Find It for Me', busy: 'Finding the moment, then cutting and subtitling it…', result: 'r-clip', chip: 'A clip about the main point' },
     { ws: 'Create Custom Image', sub: 'A line from this sermon on a card, in your colours, with your logo.', step: 'What should it say?',
       brief: ASK_CARD_BRIEF, btn: 'Make the Card', busy: 'Reading the sermon for the line that was actually said…', result: 'r-card', chip: 'A card for Wednesday' },
     { ws: 'Create Custom Document', sub: 'Written from this sermon, laid out like the other documents, as PDF and Word.', step: 'What should it be?',
-      brief: ASK_DOC_BRIEF, btn: 'Write It', busy: 'Reading the whole sermon, then writing…', result: 'r-doc', chip: 'Questions for the youth group' },
-    { ws: 'Create Custom Clip', sub: 'Clips follow the speaker, end on a complete thought, and come with and without subtitles.', step: 'What moment?',
-      brief: ASK_CLIP_BRIEF, btn: 'Find It for Me', busy: 'Finding the moment, then cutting and subtitling it…', result: 'r-clip', chip: 'A clip about the main point' }
+      brief: ASK_DOC_BRIEF, btn: 'Write It', busy: 'Reading the whole sermon, then writing…', result: 'r-doc', chip: 'Questions for the youth group' }
   ];
   var el = function (id) { return document.getElementById(id); };
   var results = ['r-card', 'r-doc', 'r-clip'], timers = [], current = 0, auto = true;
