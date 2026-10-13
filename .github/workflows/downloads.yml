@@ -1,0 +1,39 @@
+# Once a day, records how many times each release's disk image has been downloaded
+# (fresh installs and in-app updates alike, since both fetch the release asset), so the
+# trend is visible rather than only the running total GitHub shows.
+name: Record download counts
+
+on:
+  schedule:
+    - cron: "17 6 * * *"   # 06:17 UTC daily
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  record:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Append today's counts
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          FILE=stats/downloads.csv
+          [[ -f "$FILE" ]] || echo "date,version,downloads" > "$FILE"
+          TODAY=$(date -u +%F)
+          # one row per release per day; rerunning on the same day replaces that day's rows
+          grep -v "^$TODAY," "$FILE" > "$FILE.tmp" || true
+          gh api "repos/${GITHUB_REPOSITORY}/releases?per_page=100" \
+            --jq ".[] | select(.draft == false) | \"$TODAY,\(.tag_name | ltrimstr(\"v\")),\(([.assets[] | select(.name | endswith(\".dmg\")) | .download_count] | add) // 0)\"" \
+            | sort -t, -k2,2V >> "$FILE.tmp"
+          mv "$FILE.tmp" "$FILE"
+      - name: Commit if anything changed
+        run: |
+          git add stats/downloads.csv
+          if git diff --cached --quiet; then echo "No change."; exit 0; fi
+          git -c user.name="NiceTake" -c user.email="noreply@nicetake.com" commit -m "Download counts for $(date -u +%F)"
+          git pull --rebase --autostash
+          git push
