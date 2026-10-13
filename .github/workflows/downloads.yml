@@ -21,7 +21,7 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           set -euo pipefail
-          FILE=stats/downloads.csv
+          FILE=stats/downloads.csv; mkdir -p stats
           [[ -f "$FILE" ]] || echo "date,version,downloads" > "$FILE"
           TODAY=$(date -u +%F)
           # one row per release per day; rerunning on the same day replaces that day's rows
